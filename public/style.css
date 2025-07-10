@@ -9,9 +9,9 @@ body {
     margin-left: auto;
     margin-right: auto;
     margin-top: 12%;
-    margin-bottom: 2%;
+    margin-bottom: 3%;
     background-color: rgb(225, 225, 225);
-    height: 375px;
+    height: 450px;
     width: 275px;
     border-radius: 10px;
     box-shadow: 0px 5px 8px 2px black;
@@ -86,8 +86,49 @@ body {
   
 
 .buttons{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 20px;
     text-align: center;
+}
+
+.buttons button{
+    font-size: 18pt;
+    margin-right: 5px;
+    height: 40px;
+    width: 50px;
+}
+
+.volume{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.volume p{
+    margin-top: 25px;
+}
+
+.volume input{
+    width: 100%;
+    height: 10px;
+    margin-top: 5px;
+}
+
+.volume input::-webkit-slider-thumb {
+    appearance: none;
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.volume input:hover{
+    cursor: pointer;
 }
 
 .secondaryContainer {

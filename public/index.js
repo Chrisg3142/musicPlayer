@@ -71,8 +71,10 @@ const playPauseBtn = document.getElementById("playPauseButton"); //button
 const nextBtn = document.getElementById("nextButton");//button 
 const prevBtn = document.getElementById("prevButton");//button
 
+const volumeControl = document.getElementById("volumebar");
+
 const addingQueue = document.getElementById("URLinput");//user enters url to extract audio 
-const addingQueueButton = document.getElementById("submitBTN");
+const addingQueueButton = document.getElementById("submitBTN");//button when submitting link
 
 let playQueue = [];//next songs
 let historyStack = [];//for previous song
@@ -218,39 +220,60 @@ seekBar.addEventListener("touchend", () => {
   }
 });
 
+volumeControl.addEventListener("input", ()=>{
+  let volume = volumeControl.value;
+  audio.volume = volume/100;
+  if (wasPlayingBeforeSeek) {
+    audio.play().catch(() => {});
+  }
+})
+
 //grabbing from server
-addingQueueButton.addEventListener("click", function () {
+addingQueueButton.addEventListener("click", function (event) {
   const enteredURL = addingQueue.value.trim();
   if (!enteredURL) return;
+  addingQueue.value = "";
 
-  //grabbing data 
-  fetch("http://localhost:3000/api/add-song", { //from server side
+  fetch("http://localhost:3000/api/add-song", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ url: enteredURL }),
   })
-    .then((res) => res.json())
-    .then((data) => {
-      const filename = data.filename;
+  .then((res) => res.json())
+  .then((data) => {
+    if (!data.filename) {
+      console.error("No filename received from server", data);
+      return;
+    }
+    const filename = data.filename;
+    const author = data.author;
 
-      //push/add to arrays
-      musicListMP3.push(`./audios/${filename}`);//adding mp3 to mp3 array
-      songNames.push(filename.replace(".mp3", "").replaceAll("_", " "));
-      artistName.push(""); //not sure how to get artist name if not in title other  //I can take the publisher then take that variable and pass it to this
-      albumCovers.push("./assets/defaultcover.jpeg"); //image for when I dont have the cover
+    const songTitle = filename.replace(".mp3", "").replaceAll("_", " ");
+    if (!songNames.includes(songTitle)) {
+      musicListMP3.push(`./audios/${filename}`);
+      songNames.push(songTitle);
+      artistName.push(author);
+      albumCovers.push("./assets/defaultcover.jpeg");
+      playQueue.push(musicListMP3.length - 1);
 
-      playQueue.push(musicListMP3.length - 1); //add new index to queue
-
-      console.log("Added to queue:", filename); //debugging 
-    })
-    .catch((err) => console.error("Error adding song:", err)); 
+      console.log("Added to queue:", filename);
+    } else {
+      console.log("Song already exists, not adding duplicate:", filename);
+    }
+  })
+  .catch((err) => console.error("Error adding song:", err));
 });
+
+
+
 
 //adding button function 
 playPauseBtn.addEventListener("click", togglePlayPause);
 nextBtn.addEventListener("click", loadNextRandomSong);
 prevBtn.addEventListener("click", playPrevSong);
 
+//when song finishes go to next song 
+audio.addEventListener("ended", loadNextRandomSong);
 //shuffle song queue from list 
 shuffleSongs();
 //loads song first and next songs 
