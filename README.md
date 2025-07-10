@@ -1,6 +1,9 @@
-<h1>Reuirements for porject to run properly</h1>
+<h1>Requirements for porject to run properly</h1>
 #This project will run like normal with the songs provided in the folders
 #If you want to add your own songs to the queue with a youtube link you will need to install yt-dl using brew
+
+<h2>How to install brew</h2>
+
 
 
 <h2>This project uses express for the back end, JavaScript for frontend such as button function, html, css.</h2>
