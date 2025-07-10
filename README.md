@@ -14,20 +14,34 @@ Open your Terminal and run:
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
+``````
 After installation verify with:
+```bash
 brew --version
+```
 
 <h1>How to set up and run this project</h1>
 <h3>Clone this repository:</h3>
+
+```bash
 git clone https://github.com/Chrisg3142/musicPlayer.git
 cd musicPlayer
+```
 
 <h3>Install Node.js dependencies:</h3>
+
+```bash
 npm install
+```
 
 <h3>If you are on macOS or Linux, make the install script executable:</h3>
+
+```bash
 chmod +x scripts/install-yt-dlp.sh
+```
 
 <h3>Start the server (this will attempt to install yt-dlp automatically):</h3>
+
+```bash
 npm start
+```
